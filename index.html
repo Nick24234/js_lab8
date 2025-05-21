@@ -1,49 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lab 8: JS Visual and Functional Effects</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lab 8: JS </title>
   <style>
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, sans-serif; line-height: 1.5; }
+    body { font-family: Arial, sans-serif; }
+
+    header {
+      position: relative;
+      background: #333;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-menu li {
+      margin-right: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-menu li span.icon {
+      margin-right: 5px;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
 
 
-    header { position: relative; background: #333; color: #fff; padding: 10px 20px; }
-    .nav-menu { display: flex; list-style: none; }
-    .nav-menu li { margin-right: 20px; cursor: pointer; }
-    .nav-menu li span.icon { margin-right: 5px; }
-    .hamburger { display: none; font-size: 24px; cursor: pointer; }
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      max-width: 100%;
+      margin: 20px auto;
+    }
 
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
 
-    .carousel { position: relative; overflow: hidden; max-width: 100%; margin: 20px auto; }
-    .slides { display: flex; transition: transform 0.5s ease; }
-    .slide { min-width: 100%; }
-    .slide img { width: 100%; display: block; }
-    .prev, .next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; padding: 10px; cursor: pointer; }
+    .slide {
+      min-width: 100%;
+    }
+
+    .slide img {
+      width: 100%;
+      display: block;
+    }
+
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 1;
+    }
+
     .prev { left: 10px; }
     .next { right: 10px; }
-    .indicators { text-align: center; margin-top: 10px; }
-    .indicators span { display: inline-block; width: 12px; height: 12px; margin: 0 5px; background: #ccc; border-radius: 50%; cursor: pointer; }
-    .indicators .active { background: #333; }
 
+    .indicators {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .indicators span {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin: 0 5px;
+      background: #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .indicators .active {
+      background: #333;
+    }
 
     .large-only { display: block; margin: 10px; }
     .medium-only { display: none; margin: 10px; }
 
-
     @media (max-width: 767px) {
-      .nav-menu { display: none; position: absolute; top: 50px; right: 20px; background: #444; flex-direction: column; width: 150px; }
-      .nav-menu.show { display: flex; animation: fadeIn 0.3s ease; }
-      .hamburger { display: block; }
+      .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        left: 10px;
+        background: #444;
+        width: 180px;
+        border-radius: 8px;
+        animation: slideIn 0.3s ease;
+        z-index: 2;
+      }
+
+      .nav-menu.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
       .large-only { display: none; }
       .medium-only { display: block; }
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
     }
   </style>
 </head>
@@ -58,7 +141,6 @@
       <li><span class="icon">❓</span>Help</li>
     </ul>
   </header>
-
 
   <div class="carousel">
     <div class="slides">
@@ -75,14 +157,12 @@
     </div>
   </div>
 
-
   <section>
     <h2>Visible on Large Screens</h2>
     <img class="large-only" src="https://place-hold.it/200x150?text=Large+1" alt="Large only 1">
     <img class="large-only" src="https://place-hold.it/200x150?text=Large+2" alt="Large only 2">
     <img class="large-only" src="https://place-hold.it/200x150?text=Large+3" alt="Large only 3">
   </section>
-
 
   <section>
     <h2>Visible on Medium Screens</h2>
@@ -92,11 +172,12 @@
   </section>
 
   <script>
-
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
-    hamburger.addEventListener('click', () => navMenu.classList.toggle('show'));
 
+    hamburger.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+    });
 
     const slides = document.querySelector('.slides');
     const slideCount = document.querySelectorAll('.slide').length;
@@ -113,13 +194,29 @@
       currentIndex = index;
     }
 
-    function nextSlide() { showSlide(currentIndex + 1); }
-    function prevSlide() { showSlide(currentIndex - 1); }
+    function nextSlide() {
+      showSlide(currentIndex + 1);
+    }
 
-    document.querySelector('.next').addEventListener('click', () => { nextSlide(); resetInterval(); });
-    document.querySelector('.prev').addEventListener('click', () => { prevSlide(); resetInterval(); });
+    function prevSlide() {
+      showSlide(currentIndex - 1);
+    }
+
+    document.querySelector('.next').addEventListener('click', () => {
+      nextSlide();
+      resetInterval();
+    });
+
+    document.querySelector('.prev').addEventListener('click', () => {
+      prevSlide();
+      resetInterval();
+    });
+
     indicators.forEach(dot => {
-      dot.addEventListener('click', () => { showSlide(+dot.dataset.index); resetInterval(); });
+      dot.addEventListener('click', () => {
+        showSlide(+dot.dataset.index);
+        resetInterval();
+      });
     });
 
     function resetInterval() {
